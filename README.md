@@ -21,53 +21,31 @@
 </p>
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+</br>
+Hello every one 👋</br>
+This is a simple order management system 🧑‍💼</br>
+Implmented using:</br>
+Backend framework: NestJS</br>
+ORM: Prisma</br>
+Database: PostgreSQL</br>
 
-## Description
+## Setup
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up PostgreSQL and create a database
+4. Configure `.env` file with the database URL
+5. Run Prisma migrations: `npx prisma migrate dev`
+6. Start the server: `npm run start`
 
-## Installation
+## API Endpoints
 
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- **Add to Cart:** `POST /api/cart/add`
+- **View Cart:** `GET /api/cart/:userId`
+- **Update Cart:** `PUT /api/cart/update`
+- **Remove From Cart:** `DELETE /api/cart/remove`
+- **Create Order:** `POST /api/orders`
+- **Get Order by ID:** `GET /api/orders/:orderId`
+- **Update Order Status:** `PUT /api/orders/:orderId/status`
+- **Get Orders by User ID:** `GET /api/orders/user/:userId`
+- **Apply Coupon:** `POST /api/orders/apply-coupon`
