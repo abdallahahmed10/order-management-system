@@ -32,5 +32,25 @@ export class OrdersService {
         return order;
       }
 
+      async getOrderById(orderId: number): Promise<Order> {
+        return this.prisma.order.findUnique({
+          where: { orderId },
+          include: { orderItems: { include: { product: true } } }
+        });
+      }
+
+      async updateOrderStatus(orderId: number, status: string): Promise<Order> {
+        return this.prisma.order.update({
+          where: { orderId },
+          data: { status }
+        });
+      }
+
+        async getOrdersByUserId(userId: number): Promise<Order[]> {
+            return this.prisma.order.findMany({
+            where: { userId },
+            include: { orderItems: { include: { product: true } } }
+            });
+        }
 
 }
