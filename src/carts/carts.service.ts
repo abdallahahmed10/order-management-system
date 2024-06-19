@@ -42,5 +42,14 @@ export class CartsService {
         });
       }
 
-
+      async updateCart(userId: number, productId: number, quantity: number): Promise<CartItem> {
+        const cart = await this.prisma.cart.findUnique({ where: { userId } });
+    
+        if (!cart) throw new Error('Cart not found');
+    
+        return this.prisma.cartItem.update({
+          where: { cartId_productId: { cartId: cart.cartId, productId } },
+          data: { quantity }
+        });
+      }
 }
