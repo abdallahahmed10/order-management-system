@@ -35,5 +35,12 @@ export class CartsService {
         });
       }
 
+      async getCartByUserId(userId: number): Promise<Cart> {
+        return this.prisma.cart.findUnique({
+          where: { userId },
+          include: { cartItems: { include: { product: true } } }
+        });
+      }
+
 
 }
