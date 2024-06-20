@@ -24,5 +24,10 @@ export class OrdersController {
   getOrdersByUserId(@Param('userId') userId: string) {
     return this.ordersService.getOrdersByUserId(+userId);
   }
-  
+
+  @Post('/apply-coupon')
+  async applyCoupon(@Body() applyCouponDto: { orderId: number, couponCode: string }) {
+    const { orderId, couponCode } = applyCouponDto;
+    return this.ordersService.applyCoupon(orderId, couponCode);
+  }
 }
