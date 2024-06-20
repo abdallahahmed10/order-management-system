@@ -72,7 +72,11 @@ export class OrdersService {
   }
 
   async getOrdersByUserId(userId: number): Promise<Order[]> {
-    try {
+      const user = await this.prisma.user.findUnique({ where: { userId } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      
       const orders = await this.prisma.order.findMany({
         where: { userId },
         include: { orderItems: { include: { product: true } } },
@@ -83,9 +87,6 @@ export class OrdersService {
       }
 
       return orders;
-    } catch (error) {
-      throw new BadRequestException('Failed to retrieve orders for the user');
-    }
   }
 
   async applyCoupon(orderId: number, couponCode: string): Promise<Order> {
