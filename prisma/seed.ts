@@ -1,66 +1,95 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create some users
+  // Clear existing data
+  await prisma.cartItem.deleteMany({});
+  await prisma.cart.deleteMany({});
+  await prisma.orderItem.deleteMany({});
+  await prisma.order.deleteMany({});
+  await prisma.product.deleteMany({});
+  await prisma.user.deleteMany({});
+
+  // Create users
+  const hashedPassword = await bcrypt.hash('password123', 10);
   const user1 = await prisma.user.create({
     data: {
-      name: 'Alice',
-      email: 'alice@example.com',
-      password: 'password1',
-      address: '123 Main St',
-    },
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      password: hashedPassword,
+      address: '123 Main St'
+    }
   });
 
   const user2 = await prisma.user.create({
     data: {
-      name: 'Bob',
-      email: 'bob@example.com',
-      password: 'password2',
-      address: '456 Elm St',
-    },
+      name: 'Jane Smith',
+      email: 'jane.smith@example.com',
+      password: hashedPassword,
+      address: '456 Elm St'
+    }
   });
 
-  // Create some products
+  // Create products
   const product1 = await prisma.product.create({
     data: {
-      name: 'Product A',
-      description: 'Description for product A',
-      price: 19.99,
-      stock: 100,
-    },
+      name: 'Product 1',
+      description: 'Description for product 1',
+      price: 10.0,
+      stock: 100
+    }
   });
 
   const product2 = await prisma.product.create({
     data: {
-      name: 'Product B',
-      description: 'Description for product B',
-      price: 29.99,
-      stock: 200,
-    },
+      name: 'Product 2',
+      description: 'Description for product 2',
+      price: 20.0,
+      stock: 200
+    }
   });
 
-  const product3 = await prisma.product.create({
+  // Create orders
+  const order1 = await prisma.order.create({
     data: {
-      name: 'Product C',
-      description: 'Description for product C',
-      price: 39.99,
-      stock: 300,
-    },
+      userId: user1.userId,
+      status: 'Pending',
+      total: 30.0,
+      orderItems: {
+        create: [
+          { productId: product1.productId, quantity: 1 },
+          { productId: product2.productId, quantity: 1 }
+        ]
+      }
+    }
   });
 
-  // Add products to a cart
+  const order2 = await prisma.order.create({
+    data: {
+      userId: user2.userId,
+      status: 'Completed',
+      total: 20.0,
+      orderItems: {
+        create: [
+          { productId: product2.productId, quantity: 1 }
+        ]
+      }
+    }
+  });
+
+  // Create carts
   const cart1 = await prisma.cart.create({
     data: {
       userId: user1.userId,
       cartItems: {
         create: [
           { productId: product1.productId, quantity: 2 },
-          { productId: product2.productId, quantity: 1 },
-        ],
-      },
-    },
+          { productId: product2.productId, quantity: 3 }
+        ]
+      }
+    }
   });
 
   const cart2 = await prisma.cart.create({
@@ -68,43 +97,13 @@ async function main() {
       userId: user2.userId,
       cartItems: {
         create: [
-          { productId: product2.productId, quantity: 3 },
-          { productId: product3.productId, quantity: 1 },
-        ],
-      },
-    },
+          { productId: product2.productId, quantity: 1 }
+        ]
+      }
+    }
   });
 
-  // Create some orders
-  const order1 = await prisma.order.create({
-    data: {
-      userId: user1.userId,
-      orderDate: new Date(),
-      status: 'Pending',
-      orderItems: {
-        create: [
-          { productId: product1.productId, quantity: 2 },
-          { productId: product2.productId, quantity: 1 },
-        ],
-      },
-    },
-  });
-
-  const order2 = await prisma.order.create({
-    data: {
-      userId: user2.userId,
-      orderDate: new Date(),
-      status: 'Completed',
-      orderItems: {
-        create: [
-          { productId: product2.productId, quantity: 3 },
-          { productId: product3.productId, quantity: 1 },
-        ],
-      },
-    },
-  });
-
-  console.log({ user1, user2, product1, product2, product3, cart1, cart2, order1, order2 });
+  console.log({ user1, user2, product1, product2, order1, order2, cart1, cart2 });
 }
 
 main()
