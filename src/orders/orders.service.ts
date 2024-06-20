@@ -76,7 +76,7 @@ export class OrdersService {
       if (!user) {
         throw new NotFoundException('User not found');
       }
-      
+
       const orders = await this.prisma.order.findMany({
         where: { userId },
         include: { orderItems: { include: { product: true } } },
@@ -97,6 +97,10 @@ export class OrdersService {
 
     if (!order) {
       throw new NotFoundException('Order not found');
+    }
+
+    if (order.status === 'Completed') {
+      throw new BadRequestException('Order is already completed');
     }
 
     // this will apply the coupon on the total price of the order but 
