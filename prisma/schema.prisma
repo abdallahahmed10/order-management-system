@@ -24,28 +24,38 @@ model User {
 }
 
 model Product {
-  productId   Int     @id @default(autoincrement())
+  productId   Int       @id @default(autoincrement())
   name        String
-  description String
+  description String?
   price       Float
   stock       Int
-  cartItems   CartItem[]
   orderItems  OrderItem[]
+  cartItems   CartItem[]
 }
 
 model Order {
-  orderId   Int       @id @default(autoincrement())
-  orderDate DateTime  @default(now())
-  status    String
-  user      User      @relation(fields: [userId], references: [userId])
-  userId    Int
-  orderItems OrderItem[]
+  orderId     Int       @id @default(autoincrement())
+  orderDate   DateTime  @default(now())
+  status      String
+  userId      Int
+  total       Float
+  orderItems  OrderItem[]
+  user        User      @relation(fields: [userId], references: [userId])
+}
+
+model OrderItem {
+  orderItemId Int       @id @default(autoincrement())
+  orderId     Int
+  productId   Int
+  quantity    Int
+  order       Order     @relation(fields: [orderId], references: [orderId])
+  product     Product   @relation(fields: [productId], references: [productId])
 }
 
 model Cart {
-  cartId   Int       @id @default(autoincrement())
-  user     User      @relation(fields: [userId], references: [userId])
-  userId   Int       @unique
+  cartId    Int        @id @default(autoincrement())
+  user      User       @relation(fields: [userId], references: [userId])
+  userId    Int        @unique
   cartItems CartItem[]
 }
 
@@ -58,13 +68,4 @@ model CartItem {
   quantity   Int
 
   @@unique([cartId, productId])
-}
-
-model OrderItem {
-  orderItemId Int      @id @default(autoincrement())
-  order       Order    @relation(fields: [orderId], references: [orderId])
-  orderId     Int
-  product     Product  @relation(fields: [productId], references: [productId])
-  productId   Int
-  quantity    Int
 }
