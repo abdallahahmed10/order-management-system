@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { OrdersService } from '../orders/orders.service';
 import { Order } from '@prisma/client';
 
-@Controller('users')
+@Controller('/api/users')
 export class UsersController {
     constructor(
         private readonly usersService: UsersService,
@@ -11,11 +11,11 @@ export class UsersController {
       ) {}
     
       @Get(':userId/orders')
-      async getUserOrders(@Param('userId') userId: number): Promise<Order[]> {
-        const user = await this.usersService.findUserById(userId);
+      async getUserOrders(@Param('userId') userId: string): Promise<Order[]> {
+        const user = await this.usersService.findUserById(+userId);
         if (!user) {
           throw new NotFoundException('User not found');
         }
-        return this.ordersService.getOrdersByUserId(userId);
+        return this.ordersService.getOrdersByUserId(+userId);
       }
 }
