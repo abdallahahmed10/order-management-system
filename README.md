@@ -36,8 +36,9 @@ Implmented using:</br>
 3. Set up PostgreSQL and create a database
 4. Configure `.env` file with the database URL
 5. Run Prisma migrations: `npx prisma migrate dev`
-6. Start the server: `npm run start`
-7. To view API documentation on swagger use this link 👉 http://localhost:3000/api
+6. To seed your database run: `npm run seed`
+7. Start the server: `npm run start`
+8. To view API documentation on swagger use this link 👉 http://localhost:3000/api
 
 ## API Endpoints
 
