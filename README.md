@@ -25,9 +25,9 @@
 Hello every one 👋</br>
 This is a simple order management system 🧑‍💼</br>
 Implmented using:</br>
-Backend framework: NestJS</br>
-ORM: Prisma</br>
-Database: PostgreSQL</br>
+  Backend framework: NestJS</br>
+  ORM: Prisma</br>
+  Database: PostgreSQL</br>
 
 ## Setup
 
@@ -37,6 +37,7 @@ Database: PostgreSQL</br>
 4. Configure `.env` file with the database URL
 5. Run Prisma migrations: `npx prisma migrate dev`
 6. Start the server: `npm run start`
+7. To view API documentation on swagger use this link 👉 http://localhost:3000/api
 
 ## API Endpoints
 
