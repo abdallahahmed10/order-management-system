@@ -32,7 +32,7 @@ Implmented using:</br>
 ## Setup
 
 1. Clone the repository
-2. Install dependencies: `npm install`
+2. Install dependencies: `npm install` (Make sure you are in order-management-system directly before running this command)
 3. Set up PostgreSQL and create a database
 4. Configure `.env` file with the database URL
 5. Run Prisma migrations: `npx prisma migrate dev`
