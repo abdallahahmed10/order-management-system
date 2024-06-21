@@ -18,9 +18,6 @@ export class CartsService {
       update: {},
       create: { userId },
     });
-    if (!cart) {
-      throw new NotFoundException('Cart not found');
-    }
 
     const product = await this.prisma.product.findUnique({ where: { productId: productId } });
     if (!product) {
